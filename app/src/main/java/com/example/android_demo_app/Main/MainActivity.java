@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private ListView placeListView;
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private CustomAdapter customAdapter;
 
     private ArrayList<PlaceDetails> placeDetailsArrayList;
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setTitle("");
 
         placeListView = findViewById(R.id.list_item_view);
-        mSwipeRefreshLayout = findViewById(R.id.swipeToRefresh);
+        swipeRefreshLayout = findViewById(R.id.swipeToRefresh);
         refreshView = findViewById(R.id.refreshView);
 
 
