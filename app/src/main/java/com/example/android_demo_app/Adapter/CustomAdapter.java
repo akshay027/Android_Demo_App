@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.android_demo_app.ModelClass.PlaceDetails;
 import com.example.android_demo_app.R;
 
@@ -72,7 +73,13 @@ public class CustomAdapter extends BaseAdapter {
         if (placeItem.getImageHref() == null) {
         //Do nothing
         } else {
+
+            RequestOptions ro = new RequestOptions();
+            ro.placeholder(R.drawable.no_image_available);
+            ro.error(R.drawable.no_image_available);
+
             Glide.with(context)
+                    .applyDefaultRequestOptions(ro)
                     .load(placeItem.getImageHref())
                     .into(image);
         }

@@ -28,4 +28,5 @@ public class PlaceResponse {
     public void setRows(List<PlaceDetails> rows) {
         this.rows = rows;
     }
+
 }

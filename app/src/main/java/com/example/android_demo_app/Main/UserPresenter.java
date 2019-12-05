@@ -23,7 +23,7 @@ import retrofit2.Response;
 public class UserPresenter implements UserContract.Presenter {
     UserContract.View mView;
     String title;
-    Context activity;
+    Context context;
     private DownloadManager downloadManager;
     private long reference;
     private APIInterface apiInterface;
@@ -31,21 +31,21 @@ public class UserPresenter implements UserContract.Presenter {
 
     UserPresenter(UserContract.View mView, Context context) {
         this.mView = mView;
-        this.activity = context;
+        this.context = context;
     }
 
     @Override
     public void loadUsers() {
 
         try {
-            if (UIUtil.isInternetAvailable(activity)) {
-                UIUtil.startProgressDialog(activity, "Please Wait.. ");
+            if (UIUtil.isInternetAvailable(context)) {
+                UIUtil.startProgressDialog(context, "Please Wait.. ");
                 apiInterface = APIClient.getClient().create(APIInterface.class);
                 Call<PlaceResponse> call = apiInterface.getPlaceDetails();
                 call.enqueue(new Callback<PlaceResponse>() {
                     @Override
                     public void onResponse(Call<PlaceResponse> call, Response<PlaceResponse> response) {
-                        UIUtil.stopProgressDialog(activity);
+                        UIUtil.stopProgressDialog(context);
                         PlaceResponse resource = response.body();
 
                         //clear the arraylist before adding details if you wont clear it will create duplicate record
@@ -57,14 +57,14 @@ public class UserPresenter implements UserContract.Presenter {
 
                     @Override
                     public void onFailure(Call<PlaceResponse> call, Throwable t) {
-                        UIUtil.stopProgressDialog(activity);
+                        UIUtil.stopProgressDialog(context);
                         call.cancel();
                         mView.showError();
                     }
                 });
             } else {
                 mView.showError();
-                Toast.makeText(activity, "Please Connect to Internet", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Please Connect to Internet", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,7 +73,7 @@ public class UserPresenter implements UserContract.Presenter {
 
     @Override
     public void alertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
         //Setting the title manually
         builder.setTitle("Confirmation");
         builder.setMessage("Do you want to download this image file ?")
@@ -98,19 +98,19 @@ public class UserPresenter implements UserContract.Presenter {
     @Override
     public void downloadImage(String path, String subject) {
         if (downloadManager == null)
-            downloadManager = (DownloadManager) activity.getSystemService(Context.DOWNLOAD_SERVICE);
+            downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
 
         Uri uri = Uri.parse(path);
 
 // execute this when the downloader must be fired
         DownloadManager.Request request = new DownloadManager.Request(uri);
         request.setTitle(path);
-        request.setDestinationInExternalFilesDir(activity, Environment.DIRECTORY_DOWNLOADS, "Image" + subject + path);
+        request.setDestinationInExternalFilesDir(context, Environment.DIRECTORY_DOWNLOADS, "Image" + subject + path);
         request.setVisibleInDownloadsUi(true);
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
         reference = downloadManager.enqueue(request);
-        Toast.makeText(activity, "Started Downloading ..", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Started Downloading ..", Toast.LENGTH_SHORT).show();
     }
 
     @Override

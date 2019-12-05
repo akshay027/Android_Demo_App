@@ -8,6 +8,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements UserContract.View
         refreshView = findViewById(R.id.refreshView);
 
         placeDetailsArrayList = new ArrayList<>();
+
+        //Initialization of UserPresener
         mPresenter = new UserPresenter(this, context);
         mPresenter.start();
 
@@ -61,7 +65,8 @@ public class MainActivity extends AppCompatActivity implements UserContract.View
         refreshView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                final Animation myAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bounce);
+                v.startAnimation(myAnim);
                 mPresenter.loadUsers();
 
             }
