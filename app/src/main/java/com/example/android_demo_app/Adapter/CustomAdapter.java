@@ -2,6 +2,7 @@ package com.example.android_demo_app.Adapter;
 
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,12 +61,12 @@ public class CustomAdapter extends BaseAdapter {
         // get the reference of ImageView
         ImageView image = convertView.findViewById(R.id.image_view);
 
-        if (placeItem.getDescription() == null) {
+        if (TextUtils.isEmpty(placeItem.getDescription())||placeItem.getDescription() == null) {
             description.setText("No Data ");
         } else {
             description.setText(placeItem.getDescription());
         }
-        if (placeItem.getTitle() == null) {
+        if (TextUtils.isEmpty(placeItem.getTitle())||placeItem.getTitle() == null) {
             title.setText("No Data ");
         } else {
             title.setText(placeItem.getTitle());
