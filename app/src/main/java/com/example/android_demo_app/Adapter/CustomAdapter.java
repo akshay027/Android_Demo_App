@@ -71,7 +71,14 @@ public class CustomAdapter extends BaseAdapter {
             title.setText(placeItem.getTitle());
         }
         if (placeItem.getImageHref() == null) {
-        //Do nothing
+            RequestOptions ro = new RequestOptions();
+            ro.placeholder(R.drawable.no_image_available);
+            ro.error(R.drawable.no_image_available);
+
+            Glide.with(context)
+                    .applyDefaultRequestOptions(ro)
+                    .load(placeItem.getImageHref())
+                    .into(image);
         } else {
 
             RequestOptions ro = new RequestOptions();
